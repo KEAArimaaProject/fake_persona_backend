@@ -6,15 +6,15 @@
 SET SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO';
 SET time_zone = '+00:00';
 
-CREATE DATABASE IF NOT EXISTS `addresses`
+CREATE DATABASE IF NOT EXISTS `fakepersonadb`
   DEFAULT CHARACTER SET utf8mb4
   COLLATE utf8mb4_general_ci;
 
-USE `addresses`;
+USE `fakepersonadb`;
 
 -- Table (DDL)
-DROP TABLE IF EXISTS `postal_code`;
-CREATE TABLE IF NOT EXISTS `postal_code` (
+DROP TABLE IF EXISTS `fakepersonadb`.`postal_code`;
+CREATE TABLE IF NOT EXISTS `fakepersonadb`.`postal_code` (
   `cPostalCode` char(4) NOT NULL,
   `cTownName` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`cPostalCode`)
@@ -31,7 +31,7 @@ BEGIN
 
     DECLARE curPostalCodes CURSOR FOR
         SELECT cPostalCode
-        FROM postal_code
+        FROM `fakepersonadb`.`postal_code`
         GROUP BY cPostalCode
         HAVING COUNT(*) > 1;
 
@@ -45,7 +45,7 @@ BEGIN
             LEAVE loop_pc;
         END IF;
 
-        DELETE FROM postal_code WHERE cPostalCode = vcPostalCode LIMIT 1;
+        DELETE FROM `fakepersonadb`.`postal_code` WHERE cPostalCode = vcPostalCode LIMIT 1;
     END LOOP loop_pc;
 
     CLOSE curPostalCodes;
@@ -55,7 +55,7 @@ DELIMITER ;
 -- Data (DML) can be transactional
 START TRANSACTION;
 
-INSERT INTO `postal_code` (`cPostalCode`, `cTownName`) VALUES
+INSERT INTO `fakepersonadb`.`postal_code` (`cPostalCode`, `cTownName`) VALUES
 ('1301', 'København K'),
 ('2000', 'Frederiksberg'),
 ('2100', 'København Ø'),
