@@ -35,7 +35,7 @@ public class Town {
             throw new RuntimeException("Error counting towns", e);
         }
     }
-
+    
     public Map<String, String> getRandomTown() {
         if (townCount == 0) {
             throw new IllegalStateException("No towns available in database");
