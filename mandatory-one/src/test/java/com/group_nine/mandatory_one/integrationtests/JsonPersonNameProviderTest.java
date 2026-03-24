@@ -57,7 +57,7 @@ class JsonPersonNameProviderTest {
             "42, David J.,    Østergaard, male",
     })
     @DisplayName("returns correct person when index is forced")
-    void returnsExpectedPerson_whenIndexIsForced(
+    void returnsExpectedPersonWhenIndexIsForced(
             int forcedIndex,
             String expFirst,
             String expLast,

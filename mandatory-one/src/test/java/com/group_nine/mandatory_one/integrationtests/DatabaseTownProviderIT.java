@@ -29,7 +29,7 @@ class DatabaseTownProviderIT {
 
     @Test
     @DisplayName("getRandomTown should return a valid town from the database")
-    void getRandomTown_returnsValidTown() {
+    void getRandomTownReturnsValidTown() {
         Town town = provider.getRandomTown();
         
         assertNotNull(town);
@@ -44,7 +44,7 @@ class DatabaseTownProviderIT {
 
     @Test
     @DisplayName("Multiple calls should eventually return different towns")
-    void getRandomTown_returnsDifferentTowns() {
+    void getRandomTownReturnsDifferentTowns() {
         Town town1 = provider.getRandomTown();
         Town town2 = null;
         

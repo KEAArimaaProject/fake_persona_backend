@@ -24,7 +24,7 @@ class FakePersonControllerIT {
 
     @Test
     @DisplayName("GET /api/cpr returns CPR JSON")
-    void getCpr_returnsJson() {
+    void getCprReturnsJson() {
         Map<String, String> response = controller.getCpr();
         
         assertNotNull(response.get("CPR"));
@@ -33,7 +33,7 @@ class FakePersonControllerIT {
 
     @Test
     @DisplayName("GET /api/person?n=5 returns list of 5 persons")
-    void getPerson_bulk_returnsList() {
+    void getPersonBulkReturnsList() {
         ResponseEntity<?> response = controller.getPerson(5);
         
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -44,7 +44,7 @@ class FakePersonControllerIT {
 
     @Test
     @DisplayName("GET /api/person?n=0 returns 400 Bad Request")
-    void getPerson_invalidN_returnsBadRequest() {
+    void getPersonInvalidNReturnsBadRequest() {
         ResponseEntity<?> response = controller.getPerson(0);
         
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -54,7 +54,7 @@ class FakePersonControllerIT {
 
     @Test
     @DisplayName("GET /api/address returns a valid address")
-    void getAddress_returnsValidAddress() {
+    void getAddressReturnsValidAddress() {
         Map<String, Address> response = controller.getAddress();
         assertNotNull(response.get("address"));
         assertNotNull(response.get("address").townName());

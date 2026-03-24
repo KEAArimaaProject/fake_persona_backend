@@ -36,7 +36,7 @@ class FullFakePersonIT {
 
     @Test
     @DisplayName("generateFakePerson returns a complete and valid person using all real providers")
-    void generateFakePerson_returnsCompletePerson() {
+    void generateFakePersonReturnsCompletePerson() {
         FakePerson person = service.generateFakePerson();
 
         assertNotNull(person);
@@ -69,7 +69,7 @@ class FullFakePersonIT {
 
     @Test
     @DisplayName("generateFakePersons returns requested amount of valid persons")
-    void generateFakePersons_returnsCorrectAmount() {
+    void generateFakePersonsReturnsCorrectAmount() {
         int amount = 5;
         var persons = service.generateFakePersons(amount);
 
@@ -82,7 +82,7 @@ class FullFakePersonIT {
 
     @Test
     @DisplayName("generateCprNameGenderAndBirthDate returns consistent data")
-    void generateCprNameGenderAndBirthDate_isConsistent() {
+    void generateCprNameGenderAndBirthDateIsConsistent() {
         var result = service.generateCprNameGenderAndBirthDate();
 
         assertNotNull(result);

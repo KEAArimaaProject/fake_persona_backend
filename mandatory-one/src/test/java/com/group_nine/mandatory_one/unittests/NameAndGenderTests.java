@@ -19,7 +19,7 @@ class NameAndGenderTests {
 
     @Test
     @DisplayName("generateNameAndGender returns a well-formed person without using the database")
-    void generateNameAndGender_returnsWellFormedPerson() {
+    void generateNameAndGenderReturnsWellFormedPerson() {
         Random random = new Random(42);
         FakePersonGenerator generator = new FakePersonGenerator();
 

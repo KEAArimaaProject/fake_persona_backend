@@ -15,7 +15,7 @@ class NameAndGenderIT {
 
     @Test
     @DisplayName("generateNameAndGender returns a valid person using the real database town provider")
-    void generateNameAndGender_returnsWellFormedPerson() {
+    void generateNameAndGenderReturnsWellFormedPerson() {
         Random random = new Random();
 
         FakePersonService service = new FakePersonService(

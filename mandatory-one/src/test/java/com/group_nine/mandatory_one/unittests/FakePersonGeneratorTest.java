@@ -28,7 +28,7 @@ class FakePersonGeneratorTest {
 
     @Test
     @DisplayName("generateBirthDate should return date within expected range")
-    void generateBirthDate_returnsValidDate() {
+    void generateBirthDateReturnsValidDate() {
         for (int i = 0; i < 100; i++) {
             String birthDate = generator.generateBirthDate(random);
             assertNotNull(birthDate);
@@ -41,7 +41,7 @@ class FakePersonGeneratorTest {
 
     @Test
     @DisplayName("generateCpr should return valid formatted CPR")
-    void generateCpr_returnsFormattedString() {
+    void generateCprReturnsFormattedString() {
         String birthDate = "1990-05-15";
         String maleCpr = generator.generateCpr(random, birthDate, "male");
         String femaleCpr = generator.generateCpr(random, birthDate, "female");
@@ -60,7 +60,7 @@ class FakePersonGeneratorTest {
 
     @Test
     @DisplayName("generatePhone should return 8-digit phone number with valid prefix")
-    void generatePhone_returnsValidPhone() {
+    void generatePhoneReturnsValidPhone() {
         for (int i = 0; i < 50; i++) {
             String phone = generator.generatePhone(random);
             assertEquals(8, phone.length());

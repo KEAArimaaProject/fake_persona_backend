@@ -47,7 +47,7 @@ class FakePersonServiceTest {
 
     @Test
     @DisplayName("generateFakePerson orchestrates generator and providers")
-    void generateFakePerson_worksCorrectly() {
+    void generateFakePersonWorksCorrectly() {
         // Arrange
         when(personNameProvider.getRandomPerson(random)).thenReturn(testPerson);
         when(generator.generateBirthDate(eq(random))).thenReturn("1990-01-01");
@@ -74,7 +74,7 @@ class FakePersonServiceTest {
 
     @Test
     @DisplayName("generateFakePersons returns expected amount")
-    void generateFakePersons_returnsCorrectAmount() {
+    void generateFakePersonsReturnsCorrectAmount() {
         // Arrange
         when(personNameProvider.getRandomPerson(random)).thenReturn(testPerson);
         when(generator.generateBirthDate(any())).thenReturn("1990-01-01");
@@ -92,7 +92,7 @@ class FakePersonServiceTest {
 
     @Test
     @DisplayName("generateFakePersons throws exception for invalid amount")
-    void generateFakePersons_invalidAmount_throwsException() {
+    void generateFakePersonsInvalidAmountThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> service.generateFakePersons(0));
         assertThrows(IllegalArgumentException.class, () -> service.generateFakePersons(101));
     }
