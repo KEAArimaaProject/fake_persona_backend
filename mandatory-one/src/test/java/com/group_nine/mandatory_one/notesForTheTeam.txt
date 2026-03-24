@@ -1,0 +1,89 @@
+
+Code and test comments (only for team use)
+
+Code design:
+
+- Code is made testable by injecting two objects:
+* An object of type Random
+* An object of type Clock.
+The Random object is for generating a random number, which is used for creating the randomness
+in all aspects of the program. In anddition to the random objects,
+date of birth also makes use of the clock, except for date of birht,
+which also makes use of the Clock object to generate dates.
+
+By injecting clock and random into our functions
+during tests, we can verify the exact output of the code under test,
+such as Person names or birthdate.
+
+
+
+
+
+Code design issues:
+
+- The code uses the Random object by repeatedly calling
+it inside different functions. In the current implementation
+of the FakePersonGenerator and FakePersonService,
+there are therefore no guarantees
+that the output will remain the same
+if the order of execution in the code is changed,
+even when using the same seed for the Random object.
+Our code is therefore highly vulnerable to changes in the order of execution.
+This will make out tests flaky, if they test exact output values.
+
+
+Integration tests:
+
+- We have bee handled to datasets
+for use in the project. A list of
+objects in json format
+and a database of locations in Denmark.
+
+- regarding the database, our tests
+require docker to run during tests.
+This is more realistic than mocking the database,
+But make test setup less
+
+Pros of mocking the database:
+  1. Fast test execution
+Mocks avoid network calls, disk I/O, and query parsing.
+Your integration tests run almost as fast as unit tests.
+  2. No external dependencies
+Developers don’t need Docker installed or running.
+CI doesn’t need a DB service configured.
+  3. Deterministic behavior
+Mocks return exactly what you tell them to.
+No flaky tests due to DB startup time, migrations, or data drift.
+  4. Easy to simulate edge cases
+You can force:
+timeouts
+constraint violations
+unexpected nulls
+duplicate keys
+…without crafting special DB states.
+
+pros of not mocking the database:
+  1. Realistic integration
+You test:
+real SQL
+real constraints
+real migrations
+real connection handling
+real performance characteristics
+This is what integration tests are for.
+  2. Catches schema issues early
+If the schema changes, your tests fail immediately.
+  3. Confidence in production behavior
+If it works in CI with a real DB, it’s far more likely to work in production.
+  4. Great with tools like Testcontainers
+You get isolated, reproducible DB instances per test suite.
+
+
+Regarding the .json document, we regard it internal to the system
+(unlike the database, which we regard as a proxy for a typical external database,
+where the exact content is unknown to the system).
+Therefore the .json objects are used for unit tests.
+
+
+
+
