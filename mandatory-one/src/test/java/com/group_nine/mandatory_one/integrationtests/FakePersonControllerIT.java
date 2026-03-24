@@ -27,8 +27,8 @@ class FakePersonControllerIT {
     void getCprReturnsJson() {
         Map<String, String> response = controller.getCpr();
         
-        assertNotNull(response.get("CPR"));
-        assertEquals(10, response.get("CPR").length());
+        assertNotNull(response.get("cpr"));
+        assertEquals(10, response.get("cpr").length());
     }
 
     @Test

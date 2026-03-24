@@ -26,7 +26,7 @@ public class FakePersonController {
 
     @GetMapping("/cpr")
     public Map<String, String> getCpr() {
-        return Map.of("CPR", service.generateCpr());
+        return Map.of("cpr", service.generateCpr());
     }
 
     @GetMapping("/name-gender")
