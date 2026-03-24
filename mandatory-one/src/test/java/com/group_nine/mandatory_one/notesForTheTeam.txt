@@ -15,10 +15,6 @@ By injecting clock and random into our functions
 during tests, we can verify the exact output of the code under test,
 such as Person names or birthdate.
 
-
-
-
-
 Code design issues:
 
 - The code uses the Random object by repeatedly calling
@@ -30,6 +26,21 @@ if the order of execution in the code is changed,
 even when using the same seed for the Random object.
 Our code is therefore highly vulnerable to changes in the order of execution.
 This will make out tests flaky, if they test exact output values.
+
+Notice that clock is passed to the constructor, while the random object is
+passed the the functions that use it.
+
+Regarding the clock, this means that in the test a fixed date in the past is used,
+while in the code, it get passed with the current time:
+public FakePersonGenerator() {
+    this(Clock.systemDefaultZone());
+}
+this ensures that in production, the date of birth will always be some point in the past,
+it can never be in the future, but it can be close to the present moment.
+
+Regarding the random object, this means that in the tests, the same random object (with the same state) is used,
+regardless of the order of execution of the tests.
+
 
 
 Integration tests:
