@@ -21,7 +21,6 @@ jobs:
           --health-interval=5s
           --health-timeout=5s
           --health-retries=30
-          --mount type=bind,source=${{ github.workspace }}/mandatory-one/db/mysql,target=/docker-entrypoint-initdb.d,readonly
 
     steps:
       - name: Checkout
@@ -46,6 +45,12 @@ jobs:
           echo "MySQL did not become healthy in time"
           docker logs "${{ job.services.mysqldb.id }}"
           exit 1
+      
+      - name: Seed database
+        shell: bash
+        run: |
+          docker exec -i "${{ job.services.mysqldb.id }}" \
+            mysql -uroot -p123456 < mandatory-one/db/mysql/addresses.sql
 
       - name: Build + test (unit + integration)
         working-directory: mandatory-one
