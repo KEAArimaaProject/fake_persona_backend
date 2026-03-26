@@ -52,7 +52,8 @@ public class FakePersonService {
 
   public NameGenderDob generateNameGenderAndBirthDate() {
     PersonName person = generateNameAndGender();
-    return new NameGenderDob(person.firstName(), person.lastName(), person.gender(), generateBirthDate());
+    return new NameGenderDob(
+        person.firstName(), person.lastName(), person.gender(), generateBirthDate());
   }
 
   public CprNameGender generateCprNameAndGender() {
@@ -66,7 +67,8 @@ public class FakePersonService {
     PersonName person = generateNameAndGender();
     String birthDate = generateBirthDate();
     String cpr = generator.generateCpr(random, birthDate, person.gender());
-    return new CprNameGenderDob(cpr, person.firstName(), person.lastName(), person.gender(), birthDate);
+    return new CprNameGenderDob(
+        cpr, person.firstName(), person.lastName(), person.gender(), birthDate);
   }
 
   public FakePerson generateFakePerson() {
