@@ -1,0 +1,75 @@
+Proposed Testing Plan
+Based on the project structure and existing code, here is a breakdown of what should be unit tested versus integration tested, along with a plan for implementation.
+1. Unit Testing Strategy
+Unit tests should focus on isolated logic without external dependencies like the database or the file system (where possible, via mocking or using memory-based alternatives).
+•
+FakePersonGenerator: This is a prime candidate for unit testing as it contains pure generation logic (CPR, Phone numbers, Birthdates).
+◦
+Test Cases:
+▪
+Validate CPR checksum/logic (odd for male, even for female).
+▪
+Verify birthdate generation stays within valid ranges (1900 to now).
+▪
+Verify phone number prefixes match the allowed list.
+▪
+Verify floor and door formats.
+•
+FakePersonService: Should be unit tested by mocking its providers (PersonNameProvider, TownProvider) and the FakePersonGenerator.
+◦
+Test Cases:
+▪
+Ensure generateFakePersons(int amount) returns the correct list size and handles edge cases (min/max bounds).
+▪
+Verify that it correctly orchestrates calls between the generator and providers.
+•
+JsonPersonNameProvider: Can be unit tested by providing a path to a small, controlled test JSON file rather than the production one.
+2. Integration Testing Strategy
+Integration tests should verify that different components work together and interact correctly with external systems.
+•
+DatabaseTownProvider: Requires an integration test with a real (or test) database.
+◦
+Test Cases:
+▪
+Verify connection to the MySQL database.
+▪
+Verify getRandomTown() returns a valid entry from the postal_code table.
+▪
+Handle "no data" scenarios.
+•
+FakePersonController (API Tests): Use MockMvc to test the REST endpoints.
+◦
+Test Cases:
+▪
+Verify /api/cpr, /api/address, etc., return 200 OK and correctly structured JSON.
+▪
+Verify /api/person?n=X handles valid and invalid n values (e.g., n=0 or n=101 returning 400 Bad Request).
+•
+End-to-End Flow: A test that ensures the Service -> Generator -> Database flow works correctly to produce a complete FakePerson.
+3. Implementation Plan
+1.
+Refactor for Testability:
+◦
+Inject a Clock into FakePersonGenerator (it already uses one in generateBirthDate, but it's passed as a parameter) to allow testing birthdates with a fixed "now".
+◦
+Use Mockito for mocking dependencies in unit tests.
+2.
+Create Unit Tests:
+◦
+src/test/java/.../FakePersonGeneratorTest.java (Logic verification).
+◦
+src/test/java/.../FakePersonServiceTest.java (Mock-based orchestration).
+3.
+Create Integration Tests:
+◦
+src/test/java/.../DatabaseTownProviderIT.java (Requires DB connection).
+◦
+src/test/java/.../FakePersonControllerIT.java (Using @WebMvcTest or @SpringBootTest).
+4.
+Standardize Example Test:
+◦
+The existing NameAndGenderTests.java is a hybrid (it reads from data/person-names.json). It should be split: the JSON validation part remains a unit test, while the "forced index" part could be moved to a JsonPersonNameProviderTest.
+
+
+
+

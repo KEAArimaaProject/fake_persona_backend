@@ -1,0 +1,221 @@
+
+Code and test comments (only for team use)
+
+
+Arbejde:
+
+Hvis Andreas integration tests er lavet, og end 2 tests virker:
+
+-- Christians kode skal merges.
+-- end to end tests fejler,
+-- lave whitebox tests med god coverage (find alle paths ved at manipolere seeds)
+-- CI/CD - virker ikke, ifølge AI, er problemet formentlig i github.
+
+takeawyas:
+Possible principle when using seeding:
+the ONLY reason to use seeding, is to make tests reproduceable.
+The are NOT used to predict the exact value.
+Use asserts as if the input value was trult randon,
+
+Exception:
+you are working on whitebox tests, and need specific seeds to go
+through all if/else paths in the system.
+
+It is ok. to use code in tests, when using hardcoded values
+either reveals that you use a non-random seed, OR
+it makes the intent of the test clearerer.
+When what you want is a "correct" dansih phone number, then
+
+        String phone = generator.generatePhone(random);
+        boolean mandatoryInitials = PHONE_PREFIXES_REQUIREMENT.stream()
+                .anyMatch(prefix -> phone.startsWith(prefix));
+        boolean allInts = phone.chars().allMatch(Character::isDigit);
+        assertEquals(true, mandatoryInitials);
+        assertEquals(true, allInts);
+        assertEquals(8, phone.length());
+
+ is better than assert that the result is something like: "43234354"
+ Because it is better to have the test documentation in code, like above.
+
+ Regex vs: code above:
+ Either, depends on what is most readable.
+
+
+Hvad vi kan teste:
+
+Black box tests:
+
+Ulovlige input til metoden:
+ulovlig dato, eller ulovligt  køn.
+et null istedet for en random.
+(her skal vi IKKE teste for Ints isetdet Random som inut, da java er typestrækt.)
+det er kun til javascript & friends.
+
+eventuelt kan køn string erstattet med en enum.
+
+
+Whitebox tests:
+for vores whitebox unittests, vil vi gerne sorge at vi ful coverage over
+alle steps i programmet (vis muligt).
+Her er et eksempel fra "doors" private funktionen:
+dan den er private kan vi ikke teste direkte, me ´n vi kan indirekte teste adresse
+punktionen og sørge for at den får seeds der giver alle 3 mulighedder:
+til hoejre, til venstre og midt for.
+
+der gør vi for alle  paths i vores kode.
+(for "doors" metode, med hensyn til døre, er der 3 paths som alle skal dækkes.
+ Ideen er at hvis vi kun har én adresse test, som tester til højre,
+ så kan til venstre og midt for slettes uden at vores tests fanger det.
+
+MHT. til Cpr: skal vi tilsvarende teste baade "male" "female",
+men kun én gang for dato.
+
+
+
+
+-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Code design:
+
+- Code is made testable by injecting two objects:
+* An object of type Random
+* An object of type Clock.
+The Random object is for generating a random number, which is used for creating the randomness
+in all aspects of the program. In anddition to the random objects,
+date of birth also makes use of the clock, except for date of birht,
+which also makes use of the Clock object to generate dates.
+
+By injecting clock and random into our functions
+during tests, we can verify the exact output of the code under test,
+such as Person names or birthdate.
+
+Code design issues:
+
+- The code uses the Random object by repeatedly calling
+it inside different functions. In the current implementation
+of the FakePersonGenerator and FakePersonService,
+there are therefore no guarantees
+that the output will remain the same
+if the order of execution in the code is changed,
+even when using the same seed for the Random object.
+Our code is therefore highly vulnerable to changes in the order of execution.
+This will make out tests flaky, if they test exact output values.
+
+Notice that clock is passed to the constructor, while the random object is
+passed the the functions that use it.
+
+Regarding the clock, this means that in the test a fixed date in the past is used,
+while in the code, it get passed with the current time:
+public FakePersonGenerator() {
+    this(Clock.systemDefaultZone());
+}
+this ensures that in production, the date of birth will always be some point in the past,
+it can never be in the future, but it can be close to the present moment.
+
+Regarding the random object, this means that in the tests, the same random object (with the same state) is used,
+regardless of the order of execution of the tests.
+
+
+
+Integration tests:
+
+- We have bee handled to datasets
+for use in the project. A list of
+objects in json format
+and a database of locations in Denmark.
+
+- regarding the database, our tests
+require docker to run during tests.
+This is more realistic than mocking the database,
+But make test setup less
+
+Pros of mocking the database:
+  1. Fast test execution
+Mocks avoid network calls, disk I/O, and query parsing.
+Your integration tests run almost as fast as unit tests.
+  2. No external dependencies
+Developers don’t need Docker installed or running.
+CI doesn’t need a DB service configured.
+  3. Deterministic behavior
+Mocks return exactly what you tell them to.
+No flaky tests due to DB startup time, migrations, or data drift.
+  4. Easy to simulate edge cases
+You can force:
+timeouts
+constraint violations
+unexpected nulls
+duplicate keys
+…without crafting special DB states.
+
+pros of not mocking the database:
+  1. Realistic integration
+You test:
+real SQL
+real constraints
+real migrations
+real connection handling
+real performance characteristics
+This is what integration tests are for.
+  2. Catches schema issues early
+If the schema changes, your tests fail immediately.
+  3. Confidence in production behavior
+If it works in CI with a real DB, it’s far more likely to work in production.
+  4. Great with tools like Testcontainers
+You get isolated, reproducible DB instances per test suite.
+
+
+Regarding the .json document, we regard it internal to the system
+(unlike the database, which we regard as a proxy for a typical external database,
+where the exact content is unknown to the system).
+Therefore the .json objects are used for unit tests.
+
+
+///////// vedr: cpr.
+Lige nu giver vi et seed og faar en fast vaerdi hver gang.
+
+Hvis vi ikke seed, er vi noedt til at lave loops for at "tjekke" at cpr "altid" generere ulige tal
+for males, men
+
+
+Vedr CPR -- metoden modtager en birthday og et køn og et "random" object.
+på baggrund af kønnet, finder den 1 slutciffer som enten er lige eller ulige.
+
+vi kan seede metodens output, men
+vi ville gerne teste mere, men da funktionen generere tilfaeldige vaerider,
+vil ydeligere tests bryde med testprincipper:
+* hvis vi looper paa "rigtige" tilfaeldige vaerdier, saaa vil vores tests ikke være reproducer-bare,
+og vil ikke teste på faste værdier, men på kode vi skriver i testfilen. ": saa
+Begge dele er uacceptabelt.
+Af samme grund ka vi ikke skive negative tests for den, for ethvert see vil
+altid give et deterministisk svar.
+
+
+
+Her erden fremgangsmåde vi vælger til at haandttere random:
+
+
+
+-------------
+
+String birthDate = "1990-05-15";
+        String maleCpr = generator.generateCpr(random, birthDate, "male");
+        String femaleCpr = generator.generateCpr(random, birthDate, "female");
+
+        assertEquals(10, maleCpr.length());
+        assertEquals(10, femaleCpr.length());
+        assertTrue(maleCpr.startsWith("150590"));
+        assertTrue(femaleCpr.startsWith("150590"));
+
+        int maleLastDigit = Character.getNumericValue(maleCpr.charAt(9));
+        int femaleLastDigit = Character.getNumericValue(femaleCpr.charAt(9));
+
+        assertEquals(1, maleLastDigit % 2, "Male CPR should end in odd digit");
+        assertEquals(0, femaleLastDigit % 2, "Female CPR should end in even digit");
+-------------
+
+
+
+
+
+
+
