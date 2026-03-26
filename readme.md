@@ -33,7 +33,7 @@ From repo root:
 
 `.husky/pre-commit` should run:
 
-- `cd mandatory-one && ./mvnw -q spotless:apply && ./mvnw -q test`
+- `cd mandatory-one && ./mvnw -q spotless:apply && ./mvnw -q checkstyle:check && ./mvnw -q test`
 
 ### Format Java (google-java-format)
 
@@ -41,6 +41,11 @@ From repo root:
   - `./mvnw spotless:apply`
 - Check formatting (same as CI):
   - `./mvnw spotless:check`
+
+### Lint (Checkstyle)
+
+- Run linter (same as CI):
+  - `./mvnw checkstyle:check`
 
 ### Run tests
 

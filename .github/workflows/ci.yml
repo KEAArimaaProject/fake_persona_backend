@@ -58,4 +58,4 @@ jobs:
 
       - name: Build + test (unit + integration)
         working-directory: mandatory-one
-        run: ./mvnw -B spotless:check test
+        run: ./mvnw -B spotless:check checkstyle:check test

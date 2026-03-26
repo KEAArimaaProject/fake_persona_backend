@@ -1,6 +1,8 @@
 package com.group_nine.mandatory_one.unittests;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.group_nine.mandatory_one.FakePersonGenerator;
 import java.time.Clock;

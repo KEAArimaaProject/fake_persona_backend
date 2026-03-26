@@ -1,6 +1,9 @@
 package com.group_nine.mandatory_one.integrationtests;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.group_nine.mandatory_one.FakePersonGenerator;
 import com.group_nine.mandatory_one.FakePersonService;

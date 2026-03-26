@@ -22,7 +22,8 @@ public class DatabaseTownProvider implements TownProvider {
   public DatabaseTownProvider(
       Random random,
       @Value(
-              "${spring.datasource.url:jdbc:mysql://localhost:3307/fakepersonadb?useUnicode=true&characterEncoding=utf8}")
+              "${spring.datasource.url:jdbc:mysql://localhost:3307/fakepersonadb"
+                  + "?useUnicode=true&characterEncoding=utf8}")
           String dbUrl,
       @Value("${spring.datasource.username:root}") String dbUser,
       @Value("${spring.datasource.password:123456}") String dbPassword) {

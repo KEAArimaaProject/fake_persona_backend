@@ -1,3 +1,4 @@
 cd mandatory-one || exit 1
 ./mvnw -q spotless:apply
+./mvnw -q checkstyle:check
 ./mvnw -q test

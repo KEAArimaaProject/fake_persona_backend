@@ -1,10 +1,18 @@
 package com.group_nine.mandatory_one;
 
-import com.group_nine.mandatory_one.model.*;
+import com.group_nine.mandatory_one.model.Address;
+import com.group_nine.mandatory_one.model.CprNameGender;
+import com.group_nine.mandatory_one.model.CprNameGenderDob;
+import com.group_nine.mandatory_one.model.NameGenderDob;
+import com.group_nine.mandatory_one.model.PersonName;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:5500"})

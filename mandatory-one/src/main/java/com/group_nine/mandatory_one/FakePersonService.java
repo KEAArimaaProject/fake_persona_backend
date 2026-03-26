@@ -1,6 +1,11 @@
 package com.group_nine.mandatory_one;
 
-import com.group_nine.mandatory_one.model.*;
+import com.group_nine.mandatory_one.model.Address;
+import com.group_nine.mandatory_one.model.CprNameGender;
+import com.group_nine.mandatory_one.model.CprNameGenderDob;
+import com.group_nine.mandatory_one.model.FakePerson;
+import com.group_nine.mandatory_one.model.NameGenderDob;
+import com.group_nine.mandatory_one.model.PersonName;
 import com.group_nine.mandatory_one.providers.PersonNameProvider;
 import com.group_nine.mandatory_one.providers.TownProvider;
 import java.time.Clock;
