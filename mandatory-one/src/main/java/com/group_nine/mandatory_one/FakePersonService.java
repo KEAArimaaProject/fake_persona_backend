@@ -41,7 +41,7 @@ public class FakePersonService {
   }
 
   public String generateCpr() {
-    String birthDate = generator.generateBirthDate(random);
+    String birthDate = generateBirthDate();
     String gender = personNameProvider.getRandomPerson(random).gender();
     return generator.generateCpr(random, birthDate, gender);
   }
@@ -73,9 +73,9 @@ public class FakePersonService {
 
   public FakePerson generateFakePerson() {
     PersonName person = personNameProvider.getRandomPerson(random);
-    String birthDate = generator.generateBirthDate(random);
+    String birthDate = generateBirthDate();
     Address address = generator.generateAddress(random, townProvider);
-    String phoneNumber = generator.generatePhone(random);
+    String phoneNumber = generatePhone();
     String cpr = generator.generateCpr(random, birthDate, person.gender());
 
     return new FakePerson(
