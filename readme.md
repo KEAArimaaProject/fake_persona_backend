@@ -12,6 +12,29 @@ src/test/java/com/group_nine/mandatory_one/notesForTheTeam.txt
 
 Run commands from the `mandatory-one/` folder.
 
+## Git hooks (Husky) - formatting + unit tests on commit
+
+We use Husky (v9+) to run formatting + unit tests locally on every commit.
+
+### Install hooks (first time after clone)
+
+From repo root:
+
+- `npm install`
+
+### Setup / enable Husky (v9+)
+
+From repo root:
+
+- Ensure `package.json` has: `scripts.prepare = "husky"`
+- Run: `npx husky init`
+
+### pre-commit hook content
+
+`.husky/pre-commit` should run:
+
+- `cd mandatory-one && ./mvnw -q spotless:apply && ./mvnw -q test`
+
 ### Format Java (google-java-format)
 
 - Auto-format:
