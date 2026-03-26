@@ -33,6 +33,10 @@ jobs:
           java-version: "21"
           cache: maven
 
+      - name: Make Maven wrapper executable
+        working-directory: mandatory-one
+        run: chmod +x mvnw
+
       - name: Wait for MySQL
         shell: bash
         run: |
