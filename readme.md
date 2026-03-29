@@ -53,3 +53,22 @@ From repo root:
   - Start DB: `docker compose -f db/docker-compose.yml up -d`
   - Run tests: `./mvnw test`
   - Stop DB: `docker compose -f db/docker-compose.yml down`
+
+### Test coverage (JaCoCo)
+
+From `mandatory-one/`, run:
+
+| Goal | Command |
+|------|---------|
+| Unit tests and generate the HTML/XML coverage report | `./mvnw test jacoco:report` |
+| Full `verify` (includes `*IT` integration tests) and generate the report | `./mvnw verify` (start MySQL first if integration tests need it) |
+| Regenerate the report using the last test run’s data | `./mvnw jacoco:report` |
+
+**View the report**
+
+Open `mandatory-one/target/site/jacoco/index.html` in a web browser (for example double-click the file in File Explorer). Do not rely on the editor preview; the HTML is minified into one line.
+
+**Other outputs**
+
+- `target/site/jacoco/jacoco.xml` — machine-readable, useful for CI or SonarQube.  
+- `target/site/jacoco/jacoco.csv` — tabular summary.
