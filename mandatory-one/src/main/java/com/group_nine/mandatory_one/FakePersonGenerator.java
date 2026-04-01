@@ -104,7 +104,7 @@ public class FakePersonGenerator {
         );
     }
 
-    private String generateHouseNumber(Random random) {
+    public String generateHouseNumber(Random random) {
         StringBuilder number = new StringBuilder(String.valueOf(random.nextInt(999) + 1));
         if (random.nextInt(10) < 2) {
             number.append(getRandomText(random, 1, false).toUpperCase());
@@ -112,11 +112,11 @@ public class FakePersonGenerator {
         return number.toString();
     }
 
-    private String generateFloor(Random random) {
+    public String generateFloor(Random random) {
         return random.nextInt(10) < 3 ? "st" : String.valueOf(random.nextInt(99) + 1);
     }
 
-    private String generateDoor(Random random) {
+    public String generateDoor(Random random) {
         int doorType = random.nextInt(20) + 1;
 
         if (doorType < 8) return "th";
