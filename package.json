@@ -1,0 +1,25 @@
+{
+  "name": "fake_persona_backend",
+  "version": "1.0.0",
+  "description": "Programming language: Java springboot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KEAArimaaProject/fake_persona_backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/KEAArimaaProject/fake_persona_backend/issues"
+  },
+  "homepage": "https://github.com/KEAArimaaProject/fake_persona_backend#readme",
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
+}
