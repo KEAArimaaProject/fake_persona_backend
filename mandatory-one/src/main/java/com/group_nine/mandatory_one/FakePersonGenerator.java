@@ -113,17 +113,34 @@ public class FakePersonGenerator {
     return number.toString();
   }
 
-  private String generateFloor(Random random) {
-    return random.nextInt(10) < 3 ? "st" : String.valueOf(random.nextInt(99) + 1);
-  }
+    public String generateHouseNumber(Random random) {
+        StringBuilder number = new StringBuilder(String.valueOf(random.nextInt(999) + 1));
+        if (random.nextInt(10) < 2) {
+            number.append(getRandomText(random, 1, false).toUpperCase());
+        }
+        return number.toString();
+    }
 
-  private String generateDoor(Random random) {
-    int doorType = random.nextInt(20) + 1;
+    public String generateFloor(Random random) {
+        return random.nextInt(10) < 3 ? "st" : String.valueOf(random.nextInt(99) + 1);
+    }
 
-    if (doorType < 8) return "th";
-    if (doorType < 15) return "tv";
-    if (doorType < 17) return "mf";
-    if (doorType < 19) return String.valueOf(random.nextInt(50) + 1);
+    public String generateDoor(Random random) {
+        int doorType = random.nextInt(20) + 1;
+
+        if (doorType < 8) return "th";
+        if (doorType < 15) return "tv";
+        if (doorType < 17) return "mf";
+        if (doorType < 19) return String.valueOf(random.nextInt(50) + 1);
+
+        StringBuilder door = new StringBuilder();
+        door.append(LOWER_CASE_LETTERS.get(random.nextInt(LOWER_CASE_LETTERS.size())));
+        if (doorType == 20) {
+            door.append("-");
+        }
+        door.append(random.nextInt(999) + 1);
+        return door.toString();
+    }
 
     StringBuilder door = new StringBuilder();
     door.append(LOWER_CASE_LETTERS.get(random.nextInt(LOWER_CASE_LETTERS.size())));
