@@ -43,45 +43,31 @@ public class FakePersonGenerator {
   private static final List<String> RANDOM_TEXT_CHARS = buildRandomTextChars();
 
   public String generateBirthDate(Random random) {
-    int currentYear = LocalDate.now(clock).getYear();
-    int year = 1900 + random.nextInt(currentYear - 1900 + 1);
-    int month = 1 + random.nextInt(12);
+    LocalDate startDate = LocalDate.of(1900, 1, 1);
+    long startEpochDay = startDate.toEpochDay();
+    long endEpochDay = LocalDate.now(clock).toEpochDay();
+    long randomDay = startEpochDay + random.nextLong(endEpochDay - startEpochDay + 1);
 
-    int day =
-        switch (month) {
-          case 1, 3, 5, 7, 8, 10, 12 -> 1 + random.nextInt(31);
-          case 4, 6, 9, 11 -> 1 + random.nextInt(30);
-          default -> 1 + random.nextInt(28);
-        };
-
-    return LocalDate.of(year, month, day).format(DateTimeFormatter.ISO_DATE);
+    return LocalDate.ofEpochDay(randomDay).format(DateTimeFormatter.ISO_DATE);
   }
 
   public String generateCpr(Random random, String birthDate, String gender) {
     LocalDate date = LocalDate.parse(birthDate, DateTimeFormatter.ISO_DATE);
 
-    int finalDigit = random.nextInt(10);
-    if ("female".equals(gender) && finalDigit % 2 == 1) {
-      finalDigit = (finalDigit + 1) % 10;
-    } else if ("male".equals(gender) && finalDigit % 2 == 0) {
-      finalDigit = (finalDigit + 1) % 10;
-      if (finalDigit % 2 == 0) finalDigit = (finalDigit + 1) % 10;
-    }
+    int lastDigit = random.nextInt(10);
+    boolean isMale = "male".equalsIgnoreCase(gender);
 
-    // Fixed logic for male (must be odd)
-    if ("male".equals(gender) && finalDigit % 2 == 0) {
-      finalDigit = (finalDigit + 1) % 10;
+    // If male, last digit must be odd. If female, last digit must be even.
+    if (isMale != (lastDigit % 2 != 0)) {
+      lastDigit = (lastDigit + 1) % 10;
     }
 
     return String.format(
-        "%02d%02d%02d%s%s%s%d",
+        "%02d%02d%02d%04d",
         date.getDayOfMonth(),
         date.getMonthValue(),
         date.getYear() % 100,
-        getRandomDigit(random),
-        getRandomDigit(random),
-        getRandomDigit(random),
-        finalDigit);
+        random.nextInt(900) * 10 + lastDigit);
   }
 
   public String generatePhone(Random random) {
