@@ -32,7 +32,7 @@ class NameAndGenderTests {
     var result = service.generateNameAndGender();
 
     assertNotNull(result);
-    assertNotNull(result.gender());
+    assertNotNull(null);
     assertNotNull(result.lastName());
     assertNotNull(result.gender());
 
