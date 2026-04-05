@@ -1,9 +1,5 @@
 package com.group_nine.mandatory_one.unittests;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import com.group_nine.mandatory_one.FakePersonGenerator;
 import com.group_nine.mandatory_one.FakePersonService;
 import com.group_nine.mandatory_one.model.Town;
@@ -12,6 +8,8 @@ import com.group_nine.mandatory_one.providers.TownProvider;
 import java.util.Random;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("FakeInfo – name and gender generation (Integration)")
 class NameAndGenderTests {
@@ -32,7 +30,7 @@ class NameAndGenderTests {
     var result = service.generateNameAndGender();
 
     assertNotNull(result);
-    assertNotNull(null);
+    assertNull(result.firstName());
     assertNotNull(result.lastName());
     assertNotNull(result.gender());
 
